@@ -3,13 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\UserPhoto;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\ProfileHeaderValue;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +23,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'height',
+        'lat',
+        'lng',
+        'gender',
+        'phone',
+        'marital_status',
+        'have_kids',
+        'birthday',
+        'city_id',
     ];
 
     /**
@@ -43,5 +55,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function profileHeaderValues()
+    {
+        return $this->belongsToMany(ProfileHeaderValue::class, 'user_profiles')->withPivot('profile_header_value_id');
+    }
+
+    public function gallary()
+    {
+        return $this->hasMany(UserPhoto::class, 'user_id');
     }
 }

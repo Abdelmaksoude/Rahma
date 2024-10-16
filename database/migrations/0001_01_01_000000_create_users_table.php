@@ -17,6 +17,15 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('height');
+            $table->string('lat');
+            $table->string('lng');
+            $table->enum('gender',['male','female']);
+            $table->string('phone')->unique();
+            $table->enum('marital_status',['married','single','divorced','widower']);
+            $table->boolean('have_kids')->default(0);
+            $table->date('birthday');
+            $table->integer('city_id');
             $table->rememberToken();
             $table->timestamps();
         });
